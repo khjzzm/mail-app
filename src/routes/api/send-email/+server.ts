@@ -47,8 +47,9 @@ export const POST: RequestHandler = async ({ request }) => {
 			{ status: 200, headers: { 'Access-Control-Allow-Origin': '*' } }
 		);
 	} catch (err: any) {
+		console.error('Resend Error:', err); // 로컬 로그
 		return json(
-			{ success: false, message: `Resend Error: ${err.message}` },
+			{ success: false, message: 'Resend Error', error: JSON.stringify(err) },
 			{ status: 500, headers: { 'Access-Control-Allow-Origin': '*' } }
 		);
 	}
