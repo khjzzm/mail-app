@@ -16,7 +16,7 @@ export const OPTIONS: RequestHandler = async () => {
 export const POST: RequestHandler = async ({ request }) => {
 	console.log('📦 PUBLIC_SUPABASE_URL:', import.meta.env.PUBLIC_SUPABASE_URL);
 	console.log('📦 PUBLIC_SUPABASE_ANON_KEY:', import.meta.env.PUBLIC_SUPABASE_ANON_KEY);
-	console.log('📦 RESEND_API_KEY:', import.meta.env.RESEND_API_KEY);
+	console.log('📦 PUBLIC_RESEND_API_KEY:', import.meta.env.PUBLIC_RESEND_API_KEY);
 
 	const { to, subject, body } = await request.json();
 
