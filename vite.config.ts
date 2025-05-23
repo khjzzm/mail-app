@@ -7,9 +7,4 @@ dotenv.config();
 export default defineConfig({
 	plugins: [sveltekit()],
 	base: './',
-	define: {
-		'import.meta.env.PUBLIC_SUPABASE_URL': JSON.stringify(process.env.PUBLIC_SUPABASE_URL),
-		'import.meta.env.PUBLIC_SUPABASE_ANON_KEY': JSON.stringify(process.env.PUBLIC_SUPABASE_ANON_KEY),
-		'import.meta.env.RESEND_API_KEY': JSON.stringify(process.env.RESEND_API_KEY)
-	},
 });
