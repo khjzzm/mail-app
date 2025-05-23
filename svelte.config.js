@@ -1,13 +1,12 @@
+// svelte.config.js
 import adapter from '@sveltejs/adapter-auto';
 import preprocess from 'svelte-preprocess';
 
 const config = {
-	preprocess: preprocess({
-		scss: true,
-	}),
 	kit: {
-		adapter: adapter()
-	}
+		adapter: adapter(),
+	},
+	preprocess: preprocess()
 };
 
 export default config;
