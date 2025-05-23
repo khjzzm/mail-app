@@ -1,7 +1,17 @@
-// src/lib/supabase.ts
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+let client: SupabaseClient | null = null;
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export function getSupabaseClient() {
+	if (!client) {
+		const url = import.meta.env.PUBLIC_SUPABASE_URL;
+		const key = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+		if (!url || !key) {
+			throw new Error('Missing Supabase environment variables');
+		}
+
+		client = createClient(url, key);
+	}
+	return client;
+}

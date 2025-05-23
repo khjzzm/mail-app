@@ -1,6 +1,6 @@
-// src/routes/api/send-email/+server.ts
 import { json, type RequestHandler } from '@sveltejs/kit';
-import { supabase, resend } from '$lib';
+import { getResendClient } from '$lib/resend';
+import { getSupabaseClient } from '$lib/supabase';
 
 export const OPTIONS: RequestHandler = async () => {
 	return new Response(null, {
@@ -14,9 +14,9 @@ export const OPTIONS: RequestHandler = async () => {
 };
 
 export const POST: RequestHandler = async ({ request }) => {
-	console.log('📦 PUBLIC_SUPABASE_URL:', process.env.PUBLIC_SUPABASE_URL);
-	console.log('📦 PUBLIC_SUPABASE_ANON_KEY:', process.env.PUBLIC_SUPABASE_ANON_KEY);
-	console.log('📦 RESEND_API_KEY:', process.env.RESEND_API_KEY);
+	console.log('📦 PUBLIC_SUPABASE_URL:', import.meta.env.PUBLIC_SUPABASE_URL);
+	console.log('📦 PUBLIC_SUPABASE_ANON_KEY:', import.meta.env.PUBLIC_SUPABASE_ANON_KEY);
+	console.log('📦 RESEND_API_KEY:', import.meta.env.RESEND_API_KEY);
 
 	const { to, subject, body } = await request.json();
 
@@ -26,6 +26,8 @@ export const POST: RequestHandler = async ({ request }) => {
 			{ status: 400, headers: { 'Access-Control-Allow-Origin': '*' } }
 		);
 	}
+
+	const supabase = getSupabaseClient();
 
 	const { error: dbError } = await supabase.from('emails').insert([
 		{ to_email: to, subject, body }
@@ -39,6 +41,8 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 
 	try {
+		const resend = getResendClient();
+
 		await resend.emails.send({
 			from: 'Your Name <onboarding@resend.dev>',
 			to,
