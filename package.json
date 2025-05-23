@@ -23,7 +23,6 @@
 	},
 	"dependencies": {
 		"@supabase/supabase-js": "^2.49.8",
-		"dotenv": "^16.5.0",
 		"resend": "^4.5.1"
 	}
 }

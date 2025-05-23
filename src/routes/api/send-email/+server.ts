@@ -14,6 +14,10 @@ export const OPTIONS: RequestHandler = async () => {
 };
 
 export const POST: RequestHandler = async ({ request }) => {
+	console.log('📦 PUBLIC_SUPABASE_URL:', process.env.PUBLIC_SUPABASE_URL);
+	console.log('📦 PUBLIC_SUPABASE_ANON_KEY:', process.env.PUBLIC_SUPABASE_ANON_KEY);
+	console.log('📦 RESEND_API_KEY:', process.env.RESEND_API_KEY);
+
 	const { to, subject, body } = await request.json();
 
 	if (!to || !subject || !body) {
@@ -47,9 +51,22 @@ export const POST: RequestHandler = async ({ request }) => {
 			{ status: 200, headers: { 'Access-Control-Allow-Origin': '*' } }
 		);
 	} catch (err: any) {
-		console.error('Resend Error:', err); // 로컬 로그
+		console.error('Resend Error:', {
+			name: err?.name,
+			message: err?.message,
+			stack: err?.stack
+		});
+
 		return json(
-			{ success: false, message: 'Resend Error', error: JSON.stringify(err) },
+			{
+				success: false,
+				message: 'Resend Error',
+				error: {
+					name: err?.name,
+					message: err?.message,
+					stack: err?.stack
+				}
+			},
 			{ status: 500, headers: { 'Access-Control-Allow-Origin': '*' } }
 		);
 	}
